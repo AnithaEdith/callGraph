@@ -72,7 +72,7 @@ class SimpleClassifier extends Component {
  
 
     return (
-        <div class="container" style={{'width': '50%'}}>
+        <div className="container" style={{'width': '50%'}}>
             {this.state.simpleClassifierData &&
                 < Bar data={data} options={options}/>
             }

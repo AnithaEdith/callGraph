@@ -5,16 +5,18 @@ import { Bar } from 'react-chartjs-2'
 var _ = require('lodash')
 
 const mockdata = [
-  { tag_name: 'Customer Support', confidence: 0.918 },
-  { tag_name: 'Ease of Use', confidence: 0.6900000000000001 },
-  { tag_name: 'Pricing', confidence: 0.7965 }
+  { tag_name: 'User Friendly', count: 5 },
+  { tag_name: 'Coverage', count: 1 },
+  { tag_name: 'Complexity', count: 3 },
+  { tag_name: 'Cost', count: 4 },
+  { tag_name: 'Recharge', count: 2 }
 ]
 
-class SimpleClassifier extends Component {
+class TelstraExtractor extends Component {
   constructor() {
     super()
     this.state = {
-      simpleClassifierData: ''
+      textExtractor: ''
     }
   }
 
@@ -24,29 +26,29 @@ class SimpleClassifier extends Component {
 
   componentDidMount() {
     axios
-      .get(`${process.env.REACT_APP_CLASSIFIER_API}`)
+      .get(`${process.env.REACT_APP_TEXT_EXTRACTOR_API}`)
       .then(res => {
         this.setState({
-          simpleClassifierData: res.data
+          textExtractor: res.data
         })
       })
       .catch(error => {
         console.error(`There is an error in API call. ${error}`)
         this.setState({
-          simpleClassifierData: mockdata
+          textExtractor: mockdata
         })
       })
   }
 
   render() {
     const data = {
-      labels: _.map(this.state.simpleClassifierData, 'tag_name'),
+      labels: _.map(this.state.textExtractor, 'tag_name'),
       datasets: [
         {
-          label: 'Simple classification of Text',
-          backgroundColor: 'rgb(0,128,0)',
-          borderColor: 'rgb(0,128,0)',
-          data: _.map(this.state.simpleClassifierData, 'confidence')
+          label: 'Telstra Text Extractor',
+          backgroundColor: 'rgb(128, 0, 0) ',
+          borderColor: 'rgb(128, 0, 0) ',
+          data: _.map(this.state.textExtractor, 'count')
         }
       ]
     }
@@ -67,7 +69,7 @@ class SimpleClassifier extends Component {
         yAxes: [
           {
             ticks: {
-              max: 1,
+              max: 8,
               min: 0,
               stepSize: 1
             }
@@ -76,14 +78,12 @@ class SimpleClassifier extends Component {
       },
       title: {
         display: true,
-        text: 'Simple Classification of Customer Feedback'
+        text: 'Content Extractor of Customer Feedback'
       }
     }
 
-    return (
-      <div>{this.state.simpleClassifierData && <Bar data={data} options={options} height={300} width={300} />}</div>
-    )
+    return <div>{this.state.textExtractor && <Bar data={data} options={options} height={200} width={250} />}</div>
   }
 }
 
-export default SimpleClassifier
+export default TelstraExtractor

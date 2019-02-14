@@ -5,16 +5,16 @@ import { Bar } from 'react-chartjs-2'
 var _ = require('lodash')
 
 const mockdata = [
-  { tag_name: 'Customer Support', confidence: 0.918 },
-  { tag_name: 'Ease of Use', confidence: 0.6900000000000001 },
-  { tag_name: 'Pricing', confidence: 0.7965 }
+  { tag_name: 'Negative', confidence: '0.89' },
+  { tag_name: 'Positive', confidence: '0.93' },
+  { tag_name: 'Neutral', confidence: '0.75' }
 ]
 
-class SimpleClassifier extends Component {
+class SentimentAnalysis extends Component {
   constructor() {
     super()
     this.state = {
-      simpleClassifierData: ''
+      sentimentAnalysisData: ''
     }
   }
 
@@ -24,29 +24,29 @@ class SimpleClassifier extends Component {
 
   componentDidMount() {
     axios
-      .get(`${process.env.REACT_APP_CLASSIFIER_API}`)
+      .get(`${process.env.REACT_APP_SENTIMENT_API}`)
       .then(res => {
         this.setState({
-          simpleClassifierData: res.data
+          sentimentAnalysisData: res.data
         })
       })
       .catch(error => {
         console.error(`There is an error in API call. ${error}`)
         this.setState({
-          simpleClassifierData: mockdata
+          sentimentAnalysisData: mockdata
         })
       })
   }
 
   render() {
     const data = {
-      labels: _.map(this.state.simpleClassifierData, 'tag_name'),
+      labels: _.map(this.state.sentimentAnalysisData, 'tag_name'),
       datasets: [
         {
-          label: 'Simple classification of Text',
-          backgroundColor: 'rgb(0,128,0)',
-          borderColor: 'rgb(0,128,0)',
-          data: _.map(this.state.simpleClassifierData, 'confidence')
+          label: 'Sentimental Analysis of Text',
+          backgroundColor: 'rgb(0,0,128)            ',
+          borderColor: 'rgb(0,0,128)',
+          data: _.map(this.state.sentimentAnalysisData, 'confidence')
         }
       ]
     }
@@ -76,14 +76,14 @@ class SimpleClassifier extends Component {
       },
       title: {
         display: true,
-        text: 'Simple Classification of Customer Feedback'
+        text: 'Sentiment Analysis of Customer Feedback'
       }
     }
 
     return (
-      <div>{this.state.simpleClassifierData && <Bar data={data} options={options} height={300} width={300} />}</div>
+      <div>{this.state.sentimentAnalysisData && <Bar data={data} options={options} height={300} width={300} />}</div>
     )
   }
 }
 
-export default SimpleClassifier
+export default SentimentAnalysis

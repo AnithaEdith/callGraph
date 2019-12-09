@@ -9,6 +9,7 @@ const mockdata = [
   { tag_name: 'Coverage', count: 1 },
   { tag_name: 'Complexity', count: 3 },
   { tag_name: 'Cost', count: 4 },
+  { tag_name: 'Recharge One', count: 3 },
   { tag_name: 'Recharge', count: 2 }
 ]
 
